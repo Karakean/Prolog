@@ -18,11 +18,18 @@ merge([H|T],[H1|T1],[H1|X]) :-  H < H1,
 	merge([H|T],T1,X).
 
 
-is_graphic([L]) :-
-	rev_sort([L],[H|T]),
-	is_len_ok([H|T]),
-	dec(H,[H|T]).
-	%no_negatives(L).
+% ----------------------------------------------------------------------------
+
+
+is_graphic(L) :- sum_list(L, 0).
+is_graphic(L) :-
+	rev_sort(L,X),
+	is_len_ok(X),
+	get_head(X,H),
+	get_tail(X,T),
+	dec(H,T,NL),
+	no_negatives(NL),
+	is_graphic(NL).
 
 is_len_ok([H|T]) :-
 	list_len(T,A),
@@ -34,6 +41,9 @@ list_len([_|Tail],X,Len) :-
   Y is X+1,
   list_len(Tail,Y,Len).
   
+get_head([H|T],H).
+get_tail([H|T],T).
+  
 dec(0,L,L).
 dec(H,[F|T],NL) :-
 	NH is H-1,
@@ -41,5 +51,13 @@ dec(H,[F|T],NL) :-
 	dec(NH,T,NL1),
 	append([F1],NL1,NL).
 	
-%no_negatives(List) :- 
+no_negatives(L) :-
+	rev_sort(L, X),
+	reverse(X, [H|T], []),
+	H >= 0.
 	
+reverse([],X,X).
+reverse([H|T],X,Y) :- reverse(T,X,[H|Y]).
+
+
+% ----------------------------------------------------------------------------
