@@ -41,8 +41,8 @@ list_len([_|Tail],X,Len) :-
   Y is X+1,
   list_len(Tail,Y,Len).
   
-get_head([H|T],H).
-get_tail([H|T],T).
+get_head([H|_],H).
+get_tail([_|T],T).
   
 dec(0,L,L).
 dec(H,[F|T],NL) :-
@@ -61,3 +61,16 @@ reverse([H|T],X,Y) :- reverse(T,X,[H|Y]).
 
 
 % ----------------------------------------------------------------------------
+
+
+is_coherent(List):-
+	is_graphic(List),
+	no_zeros(List),
+	sum_list(List, Sum),
+	list_len(List, Len),
+	Sum / 2 >= Len - 1.
+	
+no_zeros(L) :-
+	rev_sort(L,X),
+	reverse(X, [H|T], []),
+	H > 0.
