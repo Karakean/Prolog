@@ -21,15 +21,19 @@ merge([H|T],[H1|T1],[H1|X]) :-  H < H1,
 % ----------------------------------------------------------------------------
 
 
-is_graphic(L) :- sum_list(L, 0).
-is_graphic(L) :-
+is_graphic(L,Ans) :- 
+	sum_list(L, 0),
+	Ans = "Yes".
+is_graphic(L,Ans) :-
 	rev_sort(L,X),
 	is_len_ok(X),
 	get_head(X,H),
 	get_tail(X,T),
 	dec(H,T,NL),
 	no_negatives(NL),
-	is_graphic(NL).
+	is_graphic(NL,Ans).
+is_graphic(_,Ans) :-
+	Ans = "No".
 
 is_len_ok([H|T]) :-
 	list_len(T,A),
@@ -53,7 +57,7 @@ dec(H,[F|T],NL) :-
 	
 no_negatives(L) :-
 	rev_sort(L, X),
-	reverse(X, [H|T], []),
+	reverse(X, [H|_], []),
 	H >= 0.
 	
 reverse([],X,X).
@@ -63,14 +67,17 @@ reverse([H|T],X,Y) :- reverse(T,X,[H|Y]).
 % ----------------------------------------------------------------------------
 
 
-is_coherent(List):-
-	is_graphic(List),
+is_coherent(List,Ans):-
+	is_graphic(List,_),
 	no_zeros(List),
 	sum_list(List, Sum),
 	list_len(List, Len),
-	Sum / 2 >= Len - 1.
+	Sum / 2 >= Len - 1,
+	Ans = "Yes".
+is_coherent(_,Ans) :-
+	Ans = "No".
 	
 no_zeros(L) :-
 	rev_sort(L,X),
-	reverse(X, [H|T], []),
+	reverse(X, [H|_], []),
 	H > 0.
