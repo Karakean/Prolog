@@ -68,7 +68,7 @@ reverse([H|T],X,Y) :- reverse(T,X,[H|Y]).
 
 
 is_connected(List,Ans):-
-	is_graphic(List,_),
+	is_graphic(List,"Yes"),
 	no_zeros(List),
 	sum_list(List, Sum),
 	list_len(List, Len),
