@@ -67,14 +67,14 @@ reverse([H|T],X,Y) :- reverse(T,X,[H|Y]).
 % ----------------------------------------------------------------------------
 
 
-is_coherent(List,Ans):-
+is_connected(List,Ans):-
 	is_graphic(List,_),
 	no_zeros(List),
 	sum_list(List, Sum),
 	list_len(List, Len),
 	Sum / 2 >= Len - 1,
 	Ans = "Yes".
-is_coherent(_,Ans) :-
+is_connected(_,Ans) :-
 	Ans = "No".
 	
 no_zeros(L) :-
