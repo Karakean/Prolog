@@ -27,8 +27,7 @@ is_graphic(L,Ans) :-
 is_graphic(L,Ans) :-
 	rev_sort(L,X),
 	is_len_ok(X),
-	get_head(X,H),
-	get_tail(X,T),
+	split_list(X,H,T),
 	dec(H,T,NL),
 	no_negatives(NL),
 	is_graphic(NL,Ans).
@@ -45,8 +44,7 @@ list_len([_|Tail],X,Len) :-
   Y is X+1,
   list_len(Tail,Y,Len).
   
-get_head([H|_],H).
-get_tail([_|T],T).
+split_list([H|T],H,T).
   
 dec(0,L,L).
 dec(H,[F|T],NL) :-
